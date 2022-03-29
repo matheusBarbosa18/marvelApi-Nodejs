@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marvel Persons</title>
+  <script src="http://www.myersdaily.org/joseph/javascript/md5.js"></script>
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      color: #272727;
+      font-family: 'Quicksand', serif;
+    }
+
+    .nav {
+      height: 70px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 1rem;
+      background-color: black;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 2rem;
+      width: 70%;
+      margin: auto;
+    }
+
+    .cards_item {
+      border: #272727 2px solid;
+      height: auto;
+      background-color: whitesmoke;
+      box-shadow: 5px 10px #888888;
+      padding: 5px 10px;
+      text-align: center;
+    }
+
+    input {
+      padding: 0.8rem;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-radius: 25px;
+      font-weight: 400;
+      display: block;
+      width: 33%;
+      text-align: center;
+    }
+
+    img {
+      margin: auto;
+      box-shadow: 5px 10px #888888;
+    }
+
+    h2 {
+      color: crimson;
+      border-bottom: 1px red solid;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+
+    p {
+      color: darkblue;
+      font-size: large;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <div class="main">
+    <div class="nav">
+      <input type="text" placeholder="search for characters" id="searchinput" onchange="getData()">
+    </div>
+    <div id="marvel" class="cards">
+
+    </div>
+</body>
+
+</html>
+
+<script>
+
+  const getData = async () => {
+
+    const apikey = "a0d059dc15db0e5828a4fcf4a117016e" //public key
+    const privkey = "2d06c6f1b31e9041202b57fb6bbf9ff4f33079cd" //privatekey
+
+    var query = document.getElementById("searchinput").value;
+    var marvel = document.getElementById("marvel")
+
+    marvel.innerHTML = null;
+
+    var ts = Date.now()
+    var hash = md5(ts + privkey + apikey);
+
+    let res = await fetch(`https://gateway.marvel.com:443/v1/public/characters?ts=${ts}&apikey=${apikey}&hash=${hash}&nameStartsWith=${query}&limit=20`);
+
+    let data = await res.json();
+
+    let result = data.data.results;
+
+    console.log(data.data.results)
+
+    // for(el in result){
+    //     console.log(result[el].id)
+    // }
+
+    //for of work like foreach
+    for (el of result) {
+
+      let div = document.createElement("div");
+      div.setAttribute("class", "cards_item")
+
+      let name = document.createElement("h2");
+      name.textContent = el.name;
+
+      let desc = document.createElement("p");
+      desc.textContent = el.description;
+
+      let img = document.createElement("img");
+      let url = `${el.thumbnail.path}/standard_xlarge.jpg`;
+      img.src = url;
+      //console.log(url)
+
+      div.append(img, name, desc)
+      marvel.append(div)
+    }
+  }
+
+</script>
