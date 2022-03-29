@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marvel Persons</title>
+  <title>marvel Characters</title>
   <script src="http://www.myersdaily.org/joseph/javascript/md5.js"></script>
 
 
@@ -27,8 +27,9 @@
 
     .nav {
       height: 70px;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
       margin-bottom: 1rem;
       background-color: black;
     }
@@ -53,11 +54,11 @@
     input {
       padding: 0.8rem;
       font-size: 14px;
+      width: 43%;
       text-transform: uppercase;
       border-radius: 25px;
       font-weight: 400;
       display: block;
-      width: 33%;
       text-align: center;
     }
 
@@ -79,6 +80,19 @@
       font-weight: bold;
       margin-top: 1rem;
     }
+
+    button {
+      background-color: pink;
+      padding: 0.8rem;
+      font-size: 14px;
+      width: 15%;
+      border-radius: 25px;
+      
+    }
+    button:hover{
+      cursor:pointer;
+      background-color: aqua;
+    }
   </style>
 
 
@@ -88,6 +102,7 @@
   <div class="main">
     <div class="nav">
       <input type="text" placeholder="search for characters" id="searchinput" onchange="getData()">
+      <button type="submit">SEARCH</button>
     </div>
     <div id="marvel" class="cards">
 
